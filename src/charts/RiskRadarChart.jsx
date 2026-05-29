@@ -2,18 +2,18 @@ import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, Responsi
 import Card from '../components/ui/Card';
 
 const radarData = [
-  { feature: 'REM潜伏期', score: 88 },
-  { feature: '睡眠效率', score: 74 },
-  { feature: 'N3占比', score: 63 },
-  { feature: '觉醒次数', score: 67 },
-  { feature: 'SOL', score: 47 },
-  { feature: 'WASO', score: 44 },
+  { feature: 'N3/SWS', score: 82 },
+  { feature: 'REM', score: 78 },
+  { feature: '阶段完整性', score: 74 },
+  { feature: '纺锤波', score: 69 },
+  { feature: '睡眠效率', score: 58 },
+  { feature: '模态一致性', score: 64 },
 ];
 
 export default function RiskRadarChart() {
   return (
     <Card className="h-96">
-      <h3 className="mb-4 text-lg font-black text-slate-800">风险贡献雷达图</h3>
+      <h3 className="mb-4 text-lg font-black text-slate-800">意识评估证据雷达图</h3>
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={radarData}>
           <PolarGrid />
