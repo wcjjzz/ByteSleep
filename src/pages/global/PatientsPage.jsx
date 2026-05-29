@@ -4,13 +4,22 @@ import Card from '../../components/ui/Card';
 import { MOCK_PATIENTS } from '../../data/mockPatients';
 import { STATUS_BADGE_MAP } from '../../constants/appConstants';
 
+function formatAssessmentProbability(patient) {
+  if (patient.mcsProbability === null || patient.mcsProbability === undefined) {
+    if (patient.status === '待脑电采集') return '未采集';
+    if (patient.status === '睡眠分析中') return '分析中';
+    return '未生成';
+  }
+  return `${patient.mcsProbability}%`;
+}
+
 export default function PatientsPage({ enterPatientWorkspace, followedPatientIds, toggleFollow }) {
   return (
     <div className="mx-auto max-w-[1300px] space-y-6">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <h1 className="text-3xl font-black tracking-tight text-slate-800">DOC 患者管理</h1>
-          <p className="mt-2 text-sm font-medium text-slate-500">全局查看和管理康复中心意识障碍患者的多模态睡眠生理信号采集、意识评估与医生复核状态。</p>
+          <p className="mt-2 text-sm font-medium text-slate-500">全局查看和管理康复中心意识障碍患者的多模态睡眠生理信号采集、意识障碍评估与医生复核状态。</p>
         </div>
         <div className="flex flex-col gap-3 md:flex-row">
           <select className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-600 shadow-sm outline-none">
@@ -48,6 +57,7 @@ export default function PatientsPage({ enterPatientWorkspace, followedPatientIds
             <tbody className="divide-y divide-slate-100">
               {MOCK_PATIENTS.map((item) => {
                 const followed = followedPatientIds.includes(item.id);
+                const hasAssessment = item.mcsProbability !== null && item.mcsProbability !== undefined;
                 return (
                   <tr key={item.id} onClick={() => enterPatientWorkspace(item, 'overview')} className="cursor-pointer bg-white transition hover:bg-blue-50/40">
                     <td className="px-6 py-5 text-center">
@@ -60,8 +70,8 @@ export default function PatientsPage({ enterPatientWorkspace, followedPatientIds
                     <td className="px-6 py-5">{item.gender} / {item.age}岁</td>
                     <td className="px-6 py-5">{item.lastVisit}</td>
                     <td className="px-6 py-5"><Badge type={STATUS_BADGE_MAP[item.status] || 'default'}>{item.status}</Badge></td>
-                    <td className="px-6 py-5 font-bold text-slate-700">{item.crsR}</td>
-                    <td className="px-6 py-5 font-bold text-blue-600">{item.mcsProbability}%</td>
+                    <td className="px-6 py-5 font-bold text-slate-700">{item.crsR ?? '—'}</td>
+                    <td className={`px-6 py-5 font-bold ${hasAssessment ? 'text-blue-600' : 'text-slate-400'}`}>{formatAssessmentProbability(item)}</td>
                     <td className="min-w-[280px] px-6 py-5 text-slate-500">{item.clinicalSummary}</td>
                   </tr>
                 );
