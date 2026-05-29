@@ -5,72 +5,40 @@ import SleepStagePieChart from '../../charts/SleepStagePieChart';
 import { HYPNOGRAM_DATA } from '../../data/hypnogramData';
 import { useEpochInspector } from '../../features/sleep-report/hooks/useEpochInspector';
 
-function buildSignalPath(data) {
-  return data.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${90 - point.y}`).join(' ');
-}
-
-function buildAreaPath(data) {
-  const path = buildSignalPath(data);
-  const last = data[data.length - 1];
-  return `${path} L ${last.x} 90 L 0 90 Z`;
-}
-
-function buildGradientStops(gradients, length) {
-  const stops = [];
-  gradients.forEach((item) => {
-    const start = (item.start / length) * 100;
-    const middle = (((item.start + item.end) / 2) / length) * 100;
-    const end = (item.end / length) * 100;
-    const strongColor = item.intensity >= 0.5 ? '#7f1d1d' : item.intensity >= 0.35 ? '#ef4444' : '#fca5a5';
-    stops.push({ offset: `${start}%`, color: '#fca5a5' });
-    stops.push({ offset: `${middle}%`, color: strongColor });
-    stops.push({ offset: `${end}%`, color: '#fca5a5' });
-  });
-  return stops;
-}
-
-function SignalHeatmapPanel({ data, title, subtitle, sampleRate, gradients, mode, channel, epochId }) {
-  const path = buildSignalPath(data);
-  const areaPath = buildAreaPath(data);
-  const length = data[data.length - 1]?.x || 750;
+function SignalHeatmapPanel({ signal, title, sampleRate, mode, channel, epochId }) {
   const gradientId = `heat-grad-${channel}-${epochId}`;
-  const stops = buildGradientStops(gradients, length);
   const rawStroke = channel === 'eog' ? '#0ea5e9' : '#3b82f6';
   const dotClass = channel === 'eog' ? 'bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]' : 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]';
   const areaFill = channel === 'eog' ? 'rgba(6,182,212,0.05)' : 'rgba(59,130,246,0.05)';
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-slate-100 bg-white/90 px-6 py-3 backdrop-blur-md">
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm">
+      <div className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white/90 px-6 py-3 backdrop-blur-md">
         <div className="flex items-center gap-2.5">
           <div className={`h-2.5 w-2.5 rounded-full ${dotClass}`} />
-          <div>
-            <div className="text-[13px] font-black tracking-wide text-slate-700">{title}</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">{subtitle}</div>
-          </div>
+          <span className="text-[13px] font-bold tracking-wide text-slate-700">{title}</span>
         </div>
         <span className="rounded border border-slate-200 bg-slate-100 px-2 py-0.5 text-[10px] font-black tracking-widest text-slate-500">{sampleRate}</span>
       </div>
 
-      <div className="relative h-44 w-full bg-white px-2 pt-4">
+      <div className="relative h-44 w-full px-2 pt-12">
         <div className="absolute inset-x-0 top-1/4 h-px bg-slate-100" />
         <div className="absolute inset-x-0 top-2/4 h-px bg-slate-200" />
         <div className="absolute inset-x-0 top-3/4 h-px bg-slate-100" />
-        <svg className="relative z-0 h-32 w-full" viewBox={`0 0 ${length} 180`} preserveAspectRatio="none">
+        <svg className="relative z-0 h-28 w-full" viewBox="0 0 1000 100" preserveAspectRatio="none">
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-              {stops.map((stop, index) => (
+              {signal.stops.map((stop, index) => (
                 <stop key={`${stop.offset}-${index}`} offset={stop.offset} stopColor={stop.color} />
               ))}
             </linearGradient>
           </defs>
-          {mode === 'raw' && <path d={areaPath} fill={areaFill} className="transition-all duration-500" />}
+          {mode === 'raw' && <path d={signal.areaPath} fill={areaFill} className="transition-all duration-500" />}
           <path
-            d={path}
+            d={signal.path}
             fill="transparent"
             stroke={mode === 'heatmap' ? `url(#${gradientId})` : rawStroke}
-            strokeWidth={mode === 'heatmap' ? '3' : '1.7'}
-            strokeLinecap="round"
+            strokeWidth={mode === 'heatmap' ? '3' : '1.5'}
             strokeLinejoin="round"
             className="transition-all duration-500"
           />
@@ -84,9 +52,7 @@ function SignalHeatmapPanel({ data, title, subtitle, sampleRate, gradients, mode
   );
 }
 
-function ChannelContributionChart({ attention }) {
-  const eegRatio = Math.max(0.18, Math.min(0.92, attention[0]?.value || 0.64));
-  const eogRatio = Math.max(0.18, Math.min(0.92, attention[1]?.value || 0.42));
+function ChannelContributionChart({ eegRatio, eogRatio }) {
   return (
     <Card className="flex min-h-[260px] flex-col items-center justify-center border-slate-200/80 p-6 shadow-sm">
       <h4 className="mb-8 text-center text-[13px] font-extrabold tracking-wide text-slate-800">通道特征注意力贡献比</h4>
@@ -138,13 +104,6 @@ export default function SleepReportPage() {
     jumpToEpoch,
   } = useEpochInspector();
 
-  const confidence = signalBundle.stage === 'N3' ? 91 : signalBundle.stage === 'REM' ? 88 : signalBundle.stage === 'N2' ? 86 : 79;
-  const explanation = signalBundle.stage === 'N3'
-    ? '模型主要依据 EEG 中持续高幅慢波片段进行判断，N3/SWS 证据较强，可作为意识状态辅助评估中的睡眠结构完整性线索。'
-    : signalBundle.stage === 'REM'
-      ? '模型同时关注 EOG 中成簇眼动与 EEG 低幅混合频率片段，说明该 Epoch 具有 REM 相关证据。'
-      : '模型关注 EEG/EOG 的局部形态变化，并结合睡眠阶段上下文输出当前分期结果。';
-
   return (
     <div className="mx-auto max-w-[1300px] space-y-6">
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
@@ -159,9 +118,9 @@ export default function SleepReportPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.26em] text-blue-600">Epoch Inspector</p>
               <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-800">单 Epoch 睡眠证据解释</h2>
             </div>
-            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
-              <button onClick={() => setSignalMode('raw')} className={`rounded-xl px-4 py-2 text-sm font-black ${signalMode === 'raw' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>原始信号</button>
-              <button onClick={() => setSignalMode('heatmap')} className={`rounded-xl px-4 py-2 text-sm font-black ${signalMode === 'heatmap' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>模型热度图</button>
+            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-100/80 p-1 shadow-inner">
+              <button onClick={() => setSignalMode('raw')} className={`rounded-xl px-4 py-2 text-[13px] font-bold transition-all ${signalMode === 'raw' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:bg-white/70'}`}>原始信号</button>
+              <button onClick={() => setSignalMode('heatmap')} className={`rounded-xl px-4 py-2 text-[13px] font-bold transition-all ${signalMode === 'heatmap' ? 'bg-white text-rose-600 shadow-sm' : 'text-slate-500 hover:bg-white/70'}`}>模型热度图</button>
             </div>
           </div>
 
@@ -176,29 +135,25 @@ export default function SleepReportPage() {
               <button onClick={jumpToEpoch} className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-black text-white transition hover:bg-slate-800">跳转</button>
             </div>
             <div className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-bold text-blue-700">
-              AI 判决：<span className="ml-1 text-base font-black text-indigo-600">{signalBundle.stage} 期</span>
+              AI 判决：<span className={`ml-1 text-base font-black ${signalBundle.stage === 'REM' ? 'text-rose-500' : 'text-indigo-600'}`}>{signalBundle.stage} 期</span>
             </div>
           </div>
         </div>
 
         <div className="grid gap-0 xl:grid-cols-[1fr_330px]">
-          <div className="space-y-5 p-6">
+          <div className="space-y-8 p-8 lg:p-10 lg:pr-12">
             <SignalHeatmapPanel
-              data={signalBundle.eeg}
-              title="脑电信号 (EEG Fpz-Cz)"
-              subtitle="模型关注热度沿波形线条叠加"
+              signal={signalBundle.eeg}
+              title="脑电信号 (EEG C4-M1)"
               sampleRate="100 Hz"
-              gradients={signalBundle.gradients}
               mode={signalMode}
               channel="eeg"
               epochId={currentEpochId}
             />
             <SignalHeatmapPanel
-              data={signalBundle.eog}
-              title="眼电信号 (EOG Horizontal)"
-              subtitle="快速眼动与慢滚动眼动证据"
-              sampleRate="100 Hz"
-              gradients={signalBundle.gradients}
+              signal={signalBundle.eog}
+              title="眼电信号 (EOG E1-M2)"
+              sampleRate="50 Hz"
               mode={signalMode}
               channel="eog"
               epochId={currentEpochId}
@@ -209,20 +164,20 @@ export default function SleepReportPage() {
             <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-5">
               <div>
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">Model Confidence</p>
-                <div className="text-4xl font-black leading-none tracking-tighter text-emerald-500">{confidence}<span className="text-2xl text-emerald-400">%</span></div>
+                <div className="text-4xl font-black leading-none tracking-tighter text-emerald-500">{signalBundle.confidence}<span className="text-2xl text-emerald-400">%</span></div>
               </div>
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-emerald-100 bg-emerald-50">
                 <CheckCircle2 size={24} className="text-emerald-500" strokeWidth={2.5} />
               </div>
             </div>
 
-            <ChannelContributionChart attention={signalBundle.attention} />
+            <ChannelContributionChart eegRatio={signalBundle.eegRatio} eogRatio={signalBundle.eogRatio} />
 
             <div className="mt-6 flex-1 overflow-hidden rounded-3xl border border-indigo-100/50 bg-indigo-50/40 p-6 shadow-sm">
               <div className="relative h-full pl-3">
                 <div className="absolute bottom-0 left-0 top-0 w-1.5 rounded-full bg-indigo-500" />
                 <p className="text-justify text-[13px] font-medium leading-relaxed text-slate-700">
-                  {explanation}
+                  {signalBundle.desc}
                 </p>
                 <div className="mt-5 flex items-start gap-3 border-t border-indigo-100 pt-5">
                   <CheckCircle2 size={18} className="shrink-0 text-indigo-600" strokeWidth={2.5} />
