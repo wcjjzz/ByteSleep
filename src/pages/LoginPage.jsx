@@ -11,17 +11,17 @@ export default function LoginPage({ onLogin }) {
               <Sparkles size={14} /> ByteSleep
             </div>
             <h1 className="max-w-md text-5xl font-black leading-tight tracking-tight">
-              面向康复中心 DOC 患者的
-              <span className="block bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">多模态睡眠生理信号评估工作台</span>
+              基于多模态睡眠生理信号的
+              <span className="block bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">意识障碍康复跟踪平台</span>
             </h1>
             <p className="mt-6 max-w-lg text-sm leading-7 text-slate-200">
-              基于 EEG/EOG 等多模态睡眠生理信号，为 CRS-R 临床评估提供客观、连续、可解释的算法补充，支持 MCS / VS-UWS 辅助分类与康复趋势跟踪。
+              系统采集患者的多模态睡眠生理信号，通过跨受试适配的新进算法，评估患者病情发展趋势。为医生提供CRS-R量表之外的客观评估手段
             </p>
           </div>
           <div className="grid grid-cols-3 gap-4 text-sm text-slate-200">
             <div className="rounded-3xl border border-white/10 bg-white/10 p-4">跨主体适配</div>
             <div className="rounded-3xl border border-white/10 bg-white/10 p-4">可解释热度</div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">CRS-R 补充</div>
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">客观评估手段补充</div>
           </div>
         </div>
 
