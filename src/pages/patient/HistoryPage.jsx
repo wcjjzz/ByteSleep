@@ -2,26 +2,28 @@ import Card from '../../components/ui/Card';
 import FeatureCompareBarChart from '../../charts/FeatureCompareBarChart';
 import RiskTrendChart from '../../charts/RiskTrendChart';
 import StageStackedBarChart from '../../charts/StageStackedBarChart';
-import { FEATURE_COMPARE_DATA, RISK_TREND_DATA, STAGE_STACKED_DATA } from '../../data/historyData';
+import { getHistoryDataForPatient } from '../../data/historyData';
 
 export default function HistoryPage({ patient }) {
+  const { riskTrendData, stageStackedData, featureCompareData } = getHistoryDataForPatient(patient);
+
   return (
     <div className="mx-auto max-w-[1300px] space-y-6">
       <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-100">Rehabilitation Summary</p>
         <h2 className="mt-2 text-3xl font-black tracking-tight">{patient.name} 的康复趋势摘要</h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-blue-50">
-          最近四次记录显示，CRS-R 总分、MCS 可能性与睡眠阶段完整性总体提升。对于康复中心复评场景，多次结果对照比单次报告更适合支持连续跟踪与医生复核。
+          最近六次记录显示，CRS-R 总分、MCS 可能性与睡眠阶段完整性存在个体化波动。对于康复中心复评场景，多次结果对照比单次报告更适合支持连续跟踪与医生复核。
         </p>
       </Card>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <RiskTrendChart data={RISK_TREND_DATA} />
-        <StageStackedBarChart data={STAGE_STACKED_DATA} />
+        <RiskTrendChart data={riskTrendData} />
+        <StageStackedBarChart data={stageStackedData} />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <FeatureCompareBarChart data={FEATURE_COMPARE_DATA} />
+        <FeatureCompareBarChart data={featureCompareData} />
         <Card>
           <h3 className="mb-4 text-lg font-black text-slate-800">多次康复评估指标表</h3>
           <div className="overflow-x-auto">
@@ -35,12 +37,12 @@ export default function HistoryPage({ patient }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {RISK_TREND_DATA.map((item, index) => (
+                {riskTrendData.map((item) => (
                   <tr key={item.date}>
                     <td className="py-4 pr-4 font-black text-slate-800">{item.date}</td>
                     <td className="py-4 pr-4">{item.mcsProbability}%</td>
                     <td className="py-4 pr-4">{item.crsR}</td>
-                    <td className="py-4 pr-0 text-slate-500">{index === RISK_TREND_DATA.length - 1 ? '近期最好，建议复核确认' : '持续改善中'}</td>
+                    <td className="py-4 pr-0 text-slate-500">{item.note}</td>
                   </tr>
                 ))}
               </tbody>
