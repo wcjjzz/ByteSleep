@@ -8,7 +8,7 @@ export default function LoginPage({ onLogin }) {
         <div className="hidden border-r border-white/10 p-12 text-white lg:flex lg:flex-col lg:justify-between">
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold tracking-[0.18em] text-blue-100">
-              <Sparkles size={14} /> PSGScope
+              <Sparkles size={14} /> ByteSleep
             </div>
             <h1 className="max-w-md text-5xl font-black leading-tight tracking-tight">
               面向医院 PSG 流程的
@@ -29,7 +29,7 @@ export default function LoginPage({ onLogin }) {
           <div className="mx-auto max-w-md">
             <div className="mb-8">
               <p className="text-sm font-bold uppercase tracking-[0.26em] text-blue-600">Doctor Portal</p>
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-800">登录 PSGScope</h2>
+              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-800">登录 ByteSleep</h2>
               <p className="mt-2 text-sm leading-6 text-slate-500">此页面用于演示静态前端流程，点击登录即可进入系统。</p>
             </div>
 
