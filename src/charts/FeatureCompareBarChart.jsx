@@ -3,11 +3,16 @@ import Card from '../components/ui/Card';
 
 function shortLabel(value) {
   const labelMap = {
-    CRS-R总分: 'CRS-R',
-    MCS可能性: 'MCS',
+    'CRS-R总分': 'CRS-R',
+    'CRS-R 总分': 'CRS-R',
+    'MCS可能性': 'MCS',
+    'MCS 可能性': 'MCS',
     'N3/SWS占比': 'N3/SWS',
-    REM时长: 'REM',
-    纺锤波密度: '纺锤波',
+    'N3/SWS 占比': 'N3/SWS',
+    'REM时长': 'REM',
+    'REM 时长': 'REM',
+    '纺锤波密度': '纺锤波',
+    '纺锤波 密度': '纺锤波',
   };
   return labelMap[value] || value;
 }
