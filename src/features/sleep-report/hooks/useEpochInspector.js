@@ -3,9 +3,9 @@ import { generateEpochSignal } from '../utils/generateEpochSignal';
 
 // 单 Epoch 检查器的交互逻辑。
 export function useEpochInspector() {
-  const [currentEpochId, setCurrentEpochId] = useState(453);
+  const [currentEpochId, setCurrentEpochId] = useState(509);
   const [signalMode, setSignalMode] = useState('heatmap');
-  const [inputValue, setInputValue] = useState('453');
+  const [inputValue, setInputValue] = useState('509');
 
   const signalBundle = useMemo(() => generateEpochSignal(currentEpochId), [currentEpochId]);
 
