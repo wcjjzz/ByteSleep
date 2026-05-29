@@ -20,6 +20,9 @@ export default function AppShell({ appState }) {
     followedPatientIds,
     unreadPublicUpdates,
     unreadFollowedUpdates,
+    crsRRecords,
+    addCrsRRecord,
+    patients,
     switchGlobalView,
     enterPatientWorkspace,
     exitPatientWorkspace,
@@ -42,7 +45,7 @@ export default function AppShell({ appState }) {
       case 'tasks':
         return <TasksPage enterPatientWorkspace={enterPatientWorkspace} />;
       case 'reports':
-        return <ReportsPage enterPatientWorkspace={enterPatientWorkspace} />;
+        return <ReportsPage enterPatientWorkspace={enterPatientWorkspace} crsRRecords={crsRRecords} />;
       case 'workbench':
       default:
         return (
@@ -52,6 +55,9 @@ export default function AppShell({ appState }) {
             unreadFollowedUpdates={unreadFollowedUpdates}
             markAsRead={markAsRead}
             markAllAsRead={markAllAsRead}
+            patients={patients}
+            crsRRecords={crsRRecords}
+            addCrsRRecord={addCrsRRecord}
           />
         );
     }
