@@ -9,16 +9,17 @@ export default function PatientsPage({ enterPatientWorkspace, followedPatientIds
     <div className="mx-auto max-w-[1300px] space-y-6">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-slate-800">患者大厅</h1>
-          <p className="mt-2 text-sm font-medium text-slate-500">全局查看和管理睡眠门诊所有患者的档案与流转状态。</p>
+          <h1 className="text-3xl font-black tracking-tight text-slate-800">DOC 患者管理</h1>
+          <p className="mt-2 text-sm font-medium text-slate-500">全局查看和管理康复中心意识障碍患者的多模态睡眠生理信号采集、意识评估与医生复核状态。</p>
         </div>
         <div className="flex flex-col gap-3 md:flex-row">
           <select className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-600 shadow-sm outline-none">
             <option>所有状态</option>
-            <option>待（PSG）检查</option>
-            <option>PSG分析中</option>
-            <option>待查看</option>
-            <option>待分诊</option>
+            <option>待脑电采集</option>
+            <option>睡眠分析中</option>
+            <option>待医生复核</option>
+            <option>MCS 跟踪</option>
+            <option>VS/UWS 跟踪</option>
             <option>异常中断</option>
           </select>
           <div className="relative w-full md:w-80">
@@ -37,9 +38,11 @@ export default function PatientsPage({ enterPatientWorkspace, followedPatientIds
                 <th className="px-6 py-5">患者 ID</th>
                 <th className="px-6 py-5">姓名</th>
                 <th className="px-6 py-5">性别/年龄</th>
-                <th className="px-6 py-5">最近就诊</th>
-                <th className="px-6 py-5">流程状态</th>
-                <th className="px-6 py-5">主诉摘要</th>
+                <th className="px-6 py-5">最近评估</th>
+                <th className="px-6 py-5">评估状态</th>
+                <th className="px-6 py-5">CRS-R</th>
+                <th className="px-6 py-5">MCS 可能性</th>
+                <th className="px-6 py-5">临床摘要</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -57,7 +60,9 @@ export default function PatientsPage({ enterPatientWorkspace, followedPatientIds
                     <td className="px-6 py-5">{item.gender} / {item.age}岁</td>
                     <td className="px-6 py-5">{item.lastVisit}</td>
                     <td className="px-6 py-5"><Badge type={STATUS_BADGE_MAP[item.status] || 'default'}>{item.status}</Badge></td>
-                    <td className="px-6 py-5 text-slate-500">{item.complaint}</td>
+                    <td className="px-6 py-5 font-bold text-slate-700">{item.crsR}</td>
+                    <td className="px-6 py-5 font-bold text-blue-600">{item.mcsProbability}%</td>
+                    <td className="min-w-[280px] px-6 py-5 text-slate-500">{item.clinicalSummary}</td>
                   </tr>
                 );
               })}
