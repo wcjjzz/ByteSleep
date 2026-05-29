@@ -2,31 +2,31 @@ import { Lock, Sparkles, User } from 'lucide-react';
 
 export default function LoginPage({ onLogin }) {
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-6">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-6 py-8">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.28),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(99,102,241,0.22),transparent_32%)]" />
-      <div className="relative grid w-full max-w-5xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="hidden border-r border-white/10 p-12 text-white lg:flex lg:flex-col lg:justify-between">
+      <div className="relative grid w-full max-w-7xl min-h-[640px] overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl lg:grid-cols-[1.24fr_0.76fr]">
+        <div className="hidden border-r border-white/10 px-14 py-12 text-white lg:flex lg:flex-col lg:justify-between xl:px-16">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold tracking-[0.18em] text-blue-100">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold tracking-[0.18em] text-blue-100">
               <Sparkles size={14} /> ByteSleep
             </div>
-            <h1 className="max-w-md text-5xl font-black leading-tight tracking-tight">
+            <h1 className="max-w-3xl text-4xl font-black leading-[1.22] tracking-tight xl:text-[44px]">
               基于多模态睡眠生理信号的
               <span className="block bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">意识障碍康复跟踪平台</span>
             </h1>
-            <p className="mt-6 max-w-lg text-sm leading-7 text-slate-200">
+            <p className="mt-7 max-w-2xl text-sm font-medium leading-8 text-slate-200">
               系统采集患者的多模态睡眠生理信号，通过跨受试适配的新进算法，评估患者病情发展趋势。为医生提供CRS-R量表之外的客观评估手段
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-4 text-sm text-slate-200">
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">跨主体适配</div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">可解释热度</div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">客观评估手段补充</div>
+          <div className="flex flex-wrap gap-4 text-sm text-slate-200">
+            <div className="whitespace-nowrap rounded-3xl border border-white/10 bg-white/10 px-5 py-4">跨主体适配</div>
+            <div className="whitespace-nowrap rounded-3xl border border-white/10 bg-white/10 px-5 py-4">可解释热度</div>
+            <div className="whitespace-nowrap rounded-3xl border border-white/10 bg-white/10 px-5 py-4">客观评估手段补充</div>
           </div>
         </div>
 
-        <div className="bg-white/95 p-8 sm:p-12">
-          <div className="mx-auto max-w-md">
+        <div className="flex items-center bg-white/95 p-8 sm:p-12">
+          <div className="mx-auto w-full max-w-md">
             <div className="mb-8">
               <p className="text-sm font-bold uppercase tracking-[0.26em] text-blue-600">Rehabilitation Clinical Portal</p>
               <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-800">登录 ByteSleep</h2>
