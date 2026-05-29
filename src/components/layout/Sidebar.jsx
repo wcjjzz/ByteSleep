@@ -8,7 +8,7 @@ export default function Sidebar({ items, currentId, onChange }) {
           <Activity size={22} />
         </div>
         <div>
-          <div className="text-2xl font-black tracking-tight text-white">PSGScope</div>
+          <div className="text-2xl font-black tracking-tight text-white">ByteSleep</div>
           <div className="text-xs font-medium text-slate-400">医院 PSG 智能工作台</div>
         </div>
       </button>
