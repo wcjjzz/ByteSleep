@@ -1,9 +1,9 @@
 export const RISK_FEATURES = [
-  { name: 'REM 潜伏期', value: 28, baseline: 70, unit: 'min', direction: 'lower-risky', contribution: 0.88 },
-  { name: '睡眠效率', value: 69, baseline: 85, unit: '%', direction: 'lower-risky', contribution: 0.74 },
-  { name: '觉醒次数', value: 18, baseline: 8, unit: '次', direction: 'higher-risky', contribution: 0.67 },
-  { name: 'N3 占比', value: 8, baseline: 16, unit: '%', direction: 'lower-risky', contribution: 0.63 },
-  { name: '总睡眠时长', value: 5.6, baseline: 7.1, unit: 'h', direction: 'lower-risky', contribution: 0.51 },
-  { name: '睡眠起始潜伏期', value: 35, baseline: 18, unit: 'min', direction: 'higher-risky', contribution: 0.47 },
-  { name: 'WASO', value: 65, baseline: 22, unit: 'min', direction: 'higher-risky', contribution: 0.44 },
+  { name: 'N3/SWS 时长', value: 42, baseline: 30, unit: 'min', direction: 'higher-supportive', contribution: 0.82 },
+  { name: 'REM 时长', value: 32, baseline: 20, unit: 'min', direction: 'higher-supportive', contribution: 0.78 },
+  { name: '阶段完整性', value: 71, baseline: 55, unit: '%', direction: 'higher-supportive', contribution: 0.74 },
+  { name: '纺锤波密度', value: 2.2, baseline: 1.4, unit: '次/min', direction: 'higher-supportive', contribution: 0.69 },
+  { name: '睡眠效率', value: 69, baseline: 65, unit: '%', direction: 'higher-supportive', contribution: 0.58 },
+  { name: '夜间觉醒比例', value: 18, baseline: 25, unit: '%', direction: 'lower-supportive', contribution: 0.46 },
+  { name: 'EEG/EOG 一致性', value: 81, baseline: 60, unit: '%', direction: 'higher-supportive', contribution: 0.64 },
 ];
