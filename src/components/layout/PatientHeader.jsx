@@ -31,7 +31,7 @@ export default function PatientHeader({ patient, followedPatientIds, toggleFollo
             <Badge type="primary">ID: {patient.id}</Badge>
             <Badge type={STATUS_BADGE_MAP[patient.status] || 'default'}>{patient.status}</Badge>
             <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-500">
-              <Clock size={14} /> 就诊时间：{patient.lastVisit}
+              <Clock size={14} /> 最近评估：{patient.lastVisit}
             </span>
           </div>
         </div>
