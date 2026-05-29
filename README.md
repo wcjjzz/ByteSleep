@@ -1,6 +1,6 @@
-# PSGScope
+# ByteSleep
 
-PSGScope 是一个基于 **Vite + React + JSX** 的静态前端演示项目，用于展示医院睡眠门诊场景下的 PSG 检查工作台、患者工作区、可解释睡眠报告、风险提示与历史对比。
+ByteSleep 是一个基于 **Vite + React + JSX** 的静态前端演示项目，用于展示医院睡眠门诊场景下的 PSG 检查工作台、患者工作区、可解释睡眠报告、风险提示与历史对比。
 
 ## 技术栈
 
@@ -36,5 +36,3 @@ npm run preview
 
 
 3. 请在 GitHub 仓库设置中将 Pages 的 Source 设为 **GitHub Actions**
-
-
