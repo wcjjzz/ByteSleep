@@ -1,0 +1,26 @@
+PSGScope/
+├─ .github/
+│  └─ workflows/
+│     └─ deploy.yml                GitHub Actions 部署到 GitHub Pages
+├─ public/                         静态资源目录
+├─ src/
+│  ├─ app/                         应用壳与导航配置
+│  ├─ charts/                      图表组件
+│  ├─ components/                  通用 UI 与布局组件
+│  ├─ constants/                   常量配置
+│  ├─ data/                        模拟数据
+│  ├─ features/                    功能模块（单 Epoch 检查器）
+│  ├─ hooks/                       全局状态 Hook
+│  ├─ layouts/                     全局层与患者工作区布局
+│  ├─ pages/                       登录页、全局页面、患者页面
+│  ├─ utils/                       通用工具函数
+│  ├─ App.jsx                      应用入口组件
+│  ├─ index.css                    全局样式入口
+│  └─ main.jsx                     Vite 入口文件
+├─ .gitignore                      Git 忽略配置
+├─ index.html                      HTML 模板
+├─ package.json                    依赖与脚本
+├─ postcss.config.js               PostCSS 配置
+├─ README.md                       项目说明
+├─ tailwind.config.js              Tailwind 配置
+└─ vite.config.js                  Vite 配置（base=/PSGScope/）
