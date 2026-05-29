@@ -8,7 +8,7 @@ export function useAppState() {
   const [activePatient, setActivePatient] = useState(null);
   const [currentGlobalView, setCurrentGlobalView] = useState('workbench');
   const [currentPatientView, setCurrentPatientView] = useState('overview');
-  const [followedPatientIds, setFollowedPatientIds] = useState(['P20250915', 'P20251001']);
+  const [followedPatientIds, setFollowedPatientIds] = useState(['DOC-20250915', 'DOC-20251002']);
   const [acknowledgedUpdateIds, setAcknowledgedUpdateIds] = useState([]);
 
   const switchGlobalView = (viewId) => {
