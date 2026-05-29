@@ -3,11 +3,11 @@ import Card from '../../components/ui/Card';
 
 export default function AnalysisPage({ patient, switchPatientView }) {
   const steps = [
-    '接收 PSG 原始文件与检查信息',
-    '完成基础预处理与伪迹处理',
-    '执行睡眠分期与结构提取',
-    '抽取结构化睡眠特征',
-    '生成睡眠报告与风险提示',
+    '接收头环采集的 EEG/EOG 多模态睡眠生理信号',
+    '完成基础预处理、阻抗质量检查与伪迹处理',
+    '执行 MSA-UT 睡眠分期与显著波提取',
+    '抽取 N3/REM/纺锤波/阶段完整性特征',
+    '生成睡眠报告与意识评估报告',
   ];
 
   return (
@@ -17,7 +17,7 @@ export default function AnalysisPage({ patient, switchPatientView }) {
           <div className="flex items-center gap-3">
             <div className="rounded-2xl bg-blue-50 p-4 text-blue-600"><UploadCloud size={22} /></div>
             <div>
-              <h2 className="text-2xl font-black tracking-tight text-slate-800">智能分析接入区</h2>
+              <h2 className="text-2xl font-black tracking-tight text-slate-800">多模态睡眠生理信号接入区</h2>
               <p className="mt-1 text-sm text-slate-500">当前患者：{patient.name}</p>
             </div>
           </div>
@@ -25,12 +25,12 @@ export default function AnalysisPage({ patient, switchPatientView }) {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-blue-600 shadow-soft">
               <UploadCloud size={28} />
             </div>
-            <h3 className="text-lg font-black text-slate-800">EDF / PSG 文件演示接入位</h3>
+            <h3 className="text-lg font-black text-slate-800">EEG / EOG 睡眠数据演示接入位</h3>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-7 text-slate-500">
-              这里保留了与原单文件原型一致的“文件接入与分析开始”语义。当前项目为静态演示版，因此使用说明性界面替代真实上传。
+              这里保留了“文件接入与分析开始”的交互语义。当前项目为静态演示版，因此使用说明性界面替代真实上传。
             </p>
             <button className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-600/30">
-              <PlayCircle size={18} /> 开始模拟分析
+              <PlayCircle size={18} /> 开始模拟评估
             </button>
           </div>
         </Card>
@@ -62,6 +62,19 @@ export default function AnalysisPage({ patient, switchPatientView }) {
           </button>
         </Card>
       </div>
+
+      <Card className="border-indigo-100 bg-gradient-to-r from-indigo-50 to-white">
+        <div className="text-xs font-black uppercase tracking-[0.2em] text-indigo-600">Cross-Subject Adaptation</div>
+        <h3 className="mt-2 text-xl font-black text-slate-800">跨主体适配算法说明</h3>
+        <p className="mt-3 text-sm leading-7 text-slate-600">
+          系统采用跨主体适配策略，降低不同患者脑电幅值、波形形态、眼动模式和睡眠结构差异对模型输出的影响，使模型更适合康复中心多患者连续评估场景。
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {['共享-私有特征解耦', '未知患者泛化', '多模态融合', '显著波可解释输出'].map((item) => (
+            <span key={item} className="rounded-full border border-indigo-100 bg-white px-3 py-1 text-xs font-black text-indigo-700">{item}</span>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }
