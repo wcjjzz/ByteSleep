@@ -23,7 +23,7 @@ function ProgressBar({ progress }) {
 export default function TasksPage({ enterPatientWorkspace }) {
   const stats = [
     { label: '运行中任务', value: 2, icon: Workflow },
-    { label: '待接入文件', value: 1, icon: FileClock },
+    { label: '待接入数据', value: 1, icon: FileClock },
     { label: '异常中断', value: 1, icon: AlertTriangle },
     { label: '已完结', value: 1, icon: CircleDashed },
   ];
@@ -31,8 +31,8 @@ export default function TasksPage({ enterPatientWorkspace }) {
   return (
     <div className="mx-auto max-w-[1300px] space-y-6">
       <div>
-        <h1 className="text-3xl font-black tracking-tight text-slate-800">任务中心</h1>
-        <p className="mt-2 text-sm font-medium text-slate-500">查看 PSG 任务当前所处环节、异常状态与最近更新时间。</p>
+        <h1 className="text-3xl font-black tracking-tight text-slate-800">采集与分析任务</h1>
+        <p className="mt-2 text-sm font-medium text-slate-500">查看多模态睡眠生理信号采集、MSA-UT 分析、意识评估报告生成与异常状态。</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
