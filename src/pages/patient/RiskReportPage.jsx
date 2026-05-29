@@ -1,21 +1,30 @@
-import { AlertTriangle, ArrowUpRight, ShieldAlert } from 'lucide-react';
+import { AlertTriangle, ArrowUpRight, BrainCircuit, ShieldCheck } from 'lucide-react';
 import Card from '../../components/ui/Card';
 import RiskRadarChart from '../../charts/RiskRadarChart';
 import { RISK_FEATURES } from '../../data/riskFeatures';
 
-export default function RiskReportPage() {
+function getDirectionText(direction) {
+  if (direction === 'higher-supportive') return '偏高支持 MCS';
+  if (direction === 'lower-supportive') return '偏低支持 MCS';
+  return '需医生复核';
+}
+
+export default function RiskReportPage({ patient }) {
+  const conclusion = patient?.assessment || 'MCS 倾向';
+  const confidence = patient?.mcsProbability || 76;
+
   return (
     <div className="mx-auto max-w-[1300px] space-y-6">
       <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <Card className="relative overflow-hidden bg-gradient-to-br from-rose-50 to-white">
-          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-rose-100 blur-3xl" />
+        <Card className="relative overflow-hidden bg-gradient-to-br from-emerald-50 to-white">
+          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-emerald-100 blur-3xl" />
           <div className="relative z-10 flex items-start gap-4">
-            <div className="rounded-3xl bg-rose-100 p-4 text-rose-600"><ShieldAlert size={28} /></div>
+            <div className="rounded-3xl bg-emerald-100 p-4 text-emerald-600"><ShieldCheck size={28} /></div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-rose-600">Risk Summary</p>
-              <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-800">抑郁相关风险提示：阳性（75%）</h2>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-600">Consciousness Assessment</p>
+              <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-800">意识障碍辅助评估：{conclusion}（{confidence}%）</h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-                风险评分主要由 REM 潜伏期异常缩短、睡眠效率下降、深睡比例减少以及觉醒次数增多共同驱动，建议结合量表与门诊访谈进一步核验。
+                系统基于夜间多模态睡眠生理信号提取 N3/SWS、REM、纺锤波、阶段完整性与 EEG/EOG 一致性等证据，输出 MCS / VS-UWS 辅助分类结果。
               </p>
             </div>
           </div>
@@ -28,19 +37,33 @@ export default function RiskReportPage() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-600">Clinical Notes</p>
               <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-800">临床提醒</h2>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
-                <li>建议优先查看既往量表、近期主诉和复诊记录，确认症状持续性。</li>
-                <li>如患者近一周情绪波动明显，可安排更高优先级的门诊分诊或复诊回访。</li>
-                <li>当前页面仅为辅助提示，不替代正式精神卫生诊断。</li>
+                <li>本结果是基于生理信号的客观补充方法，不替代 CRS-R 与医生正式诊断。</li>
+                <li>建议结合 CRS-R、影像学资料、病程记录和床旁观察完成复核。</li>
+                <li>跨主体适配模块用于降低不同患者波形形态和信号分布差异对输出的影响。</li>
               </ul>
             </div>
           </div>
         </Card>
       </div>
 
+      <Card className="border-blue-100 bg-gradient-to-r from-blue-50 to-white">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div className="text-xs font-black uppercase tracking-[0.2em] text-blue-600">Algorithm Evidence</div>
+            <h3 className="mt-2 text-xl font-black text-slate-800">算法输出由多模态证据共同支撑</h3>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {['跨主体适配', '多模态融合', '可解释热度图', 'CRS-R 客观补充'].map((item) => (
+              <span key={item} className="rounded-full border border-blue-100 bg-white px-3 py-1 text-xs font-black text-blue-700">{item}</span>
+            ))}
+          </div>
+        </div>
+      </Card>
+
       <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
         <RiskRadarChart />
         <Card>
-          <h3 className="mb-4 text-lg font-black text-slate-800">七项风险特征明细</h3>
+          <h3 className="mb-4 inline-flex items-center gap-2 text-lg font-black text-slate-800"><BrainCircuit size={20} className="text-blue-600" /> 七项意识评估证据明细</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm text-slate-600">
               <thead className="border-b border-slate-100 text-xs uppercase tracking-[0.18em] text-slate-500">
@@ -48,7 +71,7 @@ export default function RiskReportPage() {
                   <th className="py-4 pr-4">特征</th>
                   <th className="py-4 pr-4">当前值</th>
                   <th className="py-4 pr-4">参考值</th>
-                  <th className="py-4 pr-4">风险方向</th>
+                  <th className="py-4 pr-4">解释方向</th>
                   <th className="py-4 pr-0">贡献度</th>
                 </tr>
               </thead>
@@ -60,7 +83,7 @@ export default function RiskReportPage() {
                     <td className="py-4 pr-4">{item.baseline} {item.unit}</td>
                     <td className="py-4 pr-4">
                       <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
-                        <ArrowUpRight size={12} /> {item.direction === 'lower-risky' ? '偏低更危险' : '偏高更危险'}
+                        <ArrowUpRight size={12} /> {getDirectionText(item.direction)}
                       </span>
                     </td>
                     <td className="py-4 pr-0">
