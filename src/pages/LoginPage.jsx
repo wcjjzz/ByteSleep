@@ -11,24 +11,24 @@ export default function LoginPage({ onLogin }) {
               <Sparkles size={14} /> ByteSleep
             </div>
             <h1 className="max-w-md text-5xl font-black leading-tight tracking-tight">
-              面向医院 PSG 流程的
-              <span className="block bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">可解释分析工作台</span>
+              面向康复中心 DOC 患者的
+              <span className="block bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">多模态睡眠生理信号评估工作台</span>
             </h1>
             <p className="mt-6 max-w-lg text-sm leading-7 text-slate-200">
-              将患者大厅、PSG 任务中心、睡眠报告、风险提示与历史对比整合到统一工作流中，便于门诊医生快速查看与追踪。
+              基于 EEG/EOG 等多模态睡眠生理信号，为 CRS-R 临床评估提供客观、连续、可解释的算法补充，支持 MCS / VS-UWS 辅助分类与康复趋势跟踪。
             </p>
           </div>
           <div className="grid grid-cols-3 gap-4 text-sm text-slate-200">
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">工作台动态</div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">可解释报告</div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">纵向趋势</div>
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">跨主体适配</div>
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">可解释热度</div>
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">CRS-R 补充</div>
           </div>
         </div>
 
         <div className="bg-white/95 p-8 sm:p-12">
           <div className="mx-auto max-w-md">
             <div className="mb-8">
-              <p className="text-sm font-bold uppercase tracking-[0.26em] text-blue-600">Doctor Portal</p>
+              <p className="text-sm font-bold uppercase tracking-[0.26em] text-blue-600">Rehabilitation Clinical Portal</p>
               <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-800">登录 ByteSleep</h2>
               <p className="mt-2 text-sm leading-6 text-slate-500">此页面用于演示静态前端流程，点击登录即可进入系统。</p>
             </div>
