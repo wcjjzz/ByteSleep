@@ -17,12 +17,13 @@ export const PATIENT_VIEW_IDS = {
 
 // 任务状态对应的徽标类型。
 export const STATUS_BADGE_MAP = {
-  '待（PSG）检查': 'warning',
-  '待分诊': 'success',
-  '待查看': 'primary',
-  'PSG分析中': 'processing',
+  '待脑电采集': 'warning',
+  '睡眠分析中': 'processing',
+  '待医生复核': 'warning',
+  'MCS 跟踪': 'success',
+  'VS/UWS 跟踪': 'danger',
   '异常中断': 'danger',
   '已归档': 'default',
   '已查看': 'default',
-  '待复核': 'warning',
+  '待采集': 'warning',
 };
