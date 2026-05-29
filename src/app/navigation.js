@@ -13,6 +13,6 @@ export const patientNavItems = [
   { id: 'overview', label: '概览' },
   { id: 'analysis', label: '智能分析' },
   { id: 'sleep-report', label: '睡眠报告' },
-  { id: 'risk-report', label: '风险提示' },
-  { id: 'history', label: '历史对比' },
+  { id: 'risk-report', label: '意识评估' },
+  { id: 'history', label: '康复趋势' },
 ];
