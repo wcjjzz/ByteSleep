@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowUpRight, BrainCircuit, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, ArrowUpRight, BrainCircuit, Clock, ShieldCheck } from 'lucide-react';
 import Card from '../../components/ui/Card';
 import RiskRadarChart from '../../charts/RiskRadarChart';
 import { RISK_FEATURES } from '../../data/riskFeatures';
@@ -10,8 +10,51 @@ function getDirectionText(direction) {
 }
 
 export default function RiskReportPage({ patient }) {
-  const conclusion = patient?.assessment || 'MCS 倾向';
-  const confidence = patient?.mcsProbability || 76;
+  const hasAssessment = patient?.mcsProbability !== null && patient?.mcsProbability !== undefined && patient?.assessment;
+  const conclusion = patient?.assessment;
+  const confidence = patient?.mcsProbability;
+
+  if (!hasAssessment) {
+    const isCollecting = patient?.status === '睡眠分析中';
+    const title = isCollecting ? '意识障碍辅助评估：分析中' : '意识障碍辅助评估：未生成';
+    const desc = isCollecting
+      ? '该患者已完成采集或正在处理夜间多模态睡眠生理信号，系统尚未生成 MCS / VS-UWS 辅助分类结果。'
+      : '该患者尚未完成必要的夜间多模态睡眠生理信号采集，因此不显示模型评估百分比。';
+
+    return (
+      <div className="mx-auto max-w-[1300px] space-y-6">
+        <Card className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-white">
+          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-slate-100 blur-3xl" />
+          <div className="relative z-10 flex items-start gap-4">
+            <div className="rounded-3xl bg-slate-100 p-4 text-slate-500"><Clock size={28} /></div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Consciousness Assessment</p>
+              <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-800">{title}</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">{desc}</p>
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-500">
+                当前状态：{patient?.status || '未生成评估'}。请先完成数据采集、睡眠分期与医生复核流程。
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-amber-50 to-white">
+          <div className="flex items-start gap-4">
+            <div className="rounded-3xl bg-amber-100 p-4 text-amber-600"><AlertTriangle size={28} /></div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-600">Clinical Notes</p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-800">临床提醒</h2>
+              <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+                <li>未完成采集或分析前，不展示 MCS 可能性百分比。</li>
+                <li>可先补充 CRS-R、影像学资料、病程记录和床旁观察。</li>
+                <li>待睡眠报告生成后，再进入意识障碍辅助评估复核。</li>
+              </ul>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-[1300px] space-y-6">
@@ -63,7 +106,7 @@ export default function RiskReportPage({ patient }) {
       <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
         <RiskRadarChart />
         <Card>
-          <h3 className="mb-4 inline-flex items-center gap-2 text-lg font-black text-slate-800"><BrainCircuit size={20} className="text-blue-600" /> 七项意识评估证据明细</h3>
+          <h3 className="mb-4 inline-flex items-center gap-2 text-lg font-black text-slate-800"><BrainCircuit size={20} className="text-blue-600" /> 七项意识障碍评估证据明细</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm text-slate-600">
               <thead className="border-b border-slate-100 text-xs uppercase tracking-[0.18em] text-slate-500">
