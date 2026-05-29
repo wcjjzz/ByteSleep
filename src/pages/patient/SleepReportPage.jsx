@@ -11,7 +11,7 @@ function SignalSvg({ data, title, gradients }) {
     <Card>
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-black text-slate-800">{title}</h3>
-        <div className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">解释性热度叠加</div>
+        <div className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">模型关注热度叠加</div>
       </div>
       <div className="overflow-x-auto rounded-2xl border border-slate-100 bg-slate-50 p-3">
         <svg viewBox="0 0 750 180" className="h-48 w-full min-w-[760px]">
@@ -57,7 +57,7 @@ export default function SleepReportPage() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-600">Epoch Inspector</p>
-                <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-800">单 Epoch 可解释判别</h2>
+                <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-800">单 Epoch 睡眠证据解释</h2>
               </div>
               <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
                 <button onClick={() => setSignalMode('overlay')} className={`rounded-xl px-4 py-2 text-sm font-black ${signalMode === 'overlay' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}>叠加模式</button>
@@ -92,7 +92,7 @@ export default function SleepReportPage() {
             <div className="flex items-center gap-3">
               <div className="rounded-2xl bg-indigo-50 p-3 text-indigo-600"><Eye size={20} /></div>
               <div>
-                <h3 className="text-lg font-black text-slate-800">解释摘要</h3>
+                <h3 className="text-lg font-black text-slate-800">意识评估相关证据</h3>
                 <p className="text-sm text-slate-500">结合信号片段给出模型关注点</p>
               </div>
             </div>
@@ -115,13 +115,13 @@ export default function SleepReportPage() {
             <div className="flex items-center gap-3">
               <div className="rounded-2xl bg-blue-50 p-3 text-blue-600"><Waves size={20} /></div>
               <div>
-                <h3 className="text-lg font-black text-slate-800">阅读提示</h3>
-                <p className="text-sm text-slate-500">辅助医生理解页面交互语义</p>
+                <h3 className="text-lg font-black text-slate-800">医生阅读提示</h3>
+                <p className="text-sm text-slate-500">辅助理解页面交互语义</p>
               </div>
             </div>
             <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-600">
-              <li className="rounded-2xl bg-slate-50 p-4">蓝色热度区表示模型关注度更高的信号片段。</li>
-              <li className="rounded-2xl bg-slate-50 p-4">当前项目中的波形与热度数据为演示数据，用于还原原型交互感受。</li>
+              <li className="rounded-2xl bg-slate-50 p-4">蓝色热度区表示模型关注度更高的 EEG/EOG 信号片段。</li>
+              <li className="rounded-2xl bg-slate-50 p-4">该解释用于展示模型从多模态睡眠生理信号中提取证据的过程。</li>
               <li className="rounded-2xl bg-slate-50 p-4">后续若接入真实后端，可将该区域替换为真实 Epoch 与解释性输出。</li>
             </ul>
           </Card>
